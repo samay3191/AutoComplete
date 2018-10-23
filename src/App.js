@@ -19,7 +19,9 @@ class App extends Component {
     super(props);
     this.state = {
       searchText: "",
-      filteredCounties: this.props.countries
+      showCountries: false,
+      filteredCounties: this.props.countries,
+      selectedIndex: 0
     };
   }
 
@@ -27,19 +29,71 @@ class App extends Component {
     this.setState({ filteredCounties: newProps.countries });
   }
 
-  searchTextChange = async (event) => {
-    this.setState({ searchText: event.target.value });
-    await this.props.filterCountries(event.target.value);
+  searchTextChange = (event) => {
+    const searchTerm = event.target.value.trim();
+    const showCountries = searchTerm.length > 0;
+    this.setState({
+      searchText: searchTerm,
+      showCountries,
+      selectedIndex: 0
+    });
+    setTimeout(() => this.props.filterCountries(searchTerm), 500);
   }
+
+  setCountry = country => {
+    debugger;
+    this.setState({
+      searchText: country,
+      showCountries: false,
+      selectedIndex: 0
+    });
+  }
+
+  onSearchTextKeyDown = key => {
+    debugger;
+    const { selectedIndex, filteredCounties } = this.state;
+
+    if (key.keyCode === 13) { //enter
+      this.setCountry(filteredCounties[selectedIndex].name);
+    }
+    else if (key.keyCode === 38) { //up
+      if (selectedIndex === 0) {
+        return;
+      }
+      this.setState({ selectedIndex: selectedIndex - 1 });
+    }
+    else if (key.keyCode === 40) { //down
+      if (selectedIndex + 1 === filteredCounties.length) {
+        return;
+      }
+      this.setState({ selectedIndex: selectedIndex + 1 });
+    }
+  };
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <br/>
-          <input id="searchBox" type="text" onChange={this.searchTextChange} width={50} value={this.setState.searchText} />
-          <CountryList countries={this.state.filteredCounties} />
+          <div>
+            <h1>Auto Complete Demo</h1>
+          </div>
+          <div>
+            <input
+              id="searchBox"
+              type="text"
+              onChange={this.searchTextChange}
+              onKeyDown={this.onSearchTextKeyDown}
+              value={this.state.searchText}
+              className="searchBox"
+            />
+          </div>
+          { this.state.showCountries &&
+            <CountryList
+              countries={this.state.filteredCounties}
+              selectedIndex={this.state.selectedIndex}
+              setCountry={this.setCountry}
+            />
+          }
         </header>
       </div>
     );

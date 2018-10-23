@@ -1,21 +1,31 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-const CountryList = ({ countries }) => {
+const CountryList = ({ countries, selectedIndex, setCountry }) => {
   debugger;
   return (
-  <div>
-  { countries.length > 0 ?
-  <ul>
-    {countries.map(country => (
-      <li key={country.code}>
-        {country.name}
-      </li>
-    ))}
-  </ul>
-  : 
-  <p>No matching country found.</p>
-  }
-  </div>
-)};
+    <Fragment>
+      {countries.length > 0 ?
+        <div className="CountryList">
+          <ul>
+            {countries.map((country, index) => {
+              const listClass = selectedIndex === index ? "SelectedListItem" : "ListItem";
+              return (
+                <li
+                  key={country.code}
+                  className={listClass}
+                  onClick={() => setCountry(country.name)}
+                >
+                  {country.name}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+        :
+        <p>No matching country found.</p>
+      }
+    </Fragment>
+  )
+};
 
 export default CountryList;
