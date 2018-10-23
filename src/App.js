@@ -18,13 +18,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: ""
+      searchText: "",
+      filteredCounties: this.props.countries
     };
   }
 
-  searchTextChange = event => {
+  componentWillReceiveProps (newProps) {
+    this.setState({ filteredCounties: newProps.countries });
+  }
+
+  searchTextChange = async (event) => {
     this.setState({ searchText: event.target.value });
-    this.props.filterCountries(event.target.value);
+    await this.props.filterCountries(event.target.value);
   }
 
   render() {
@@ -32,8 +37,9 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <br/>
           <input id="searchBox" type="text" onChange={this.searchTextChange} width={50} value={this.setState.searchText} />
-          <CountryList countries={this.props.countries} />
+          <CountryList countries={this.state.filteredCounties} />
         </header>
       </div>
     );
