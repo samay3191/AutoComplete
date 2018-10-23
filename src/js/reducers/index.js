@@ -10,7 +10,6 @@ const rootReducer = (state = initialState, action) => {
     switch(action.type) {
         case FILTER_COUNTRIES:
         {
-            debugger;
             const countries = action.payload || [];
             return { countries };
         }

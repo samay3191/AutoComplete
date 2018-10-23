@@ -1,8 +1,10 @@
 import React from "react";
 
-const CountryList = ({ countries }) => (
+const CountryList = ({ countries }) => {
+  debugger;
+  return (
   <div>
-  { countries.Length > 0 ?
+  { countries.length > 0 ?
   <ul>
     {countries.map(country => (
       <li key={country.code}>
@@ -14,6 +16,6 @@ const CountryList = ({ countries }) => (
   <p>No matching country found.</p>
   }
   </div>
-);
+)};
 
 export default CountryList;
