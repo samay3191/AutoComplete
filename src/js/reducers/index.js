@@ -1,9 +1,7 @@
 import { FILTER_COUNTRIES } from "../constants/actionTypes";
 
-const allCountries = require("../../resources/countries.json");
-
 const initialState = {
-    countries: allCountries
+    countries: []
 };
 
 const rootReducer = (state = initialState, action) => {

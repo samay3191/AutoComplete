@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 
 const CountryList = ({ countries, selectedIndex, setCountry }) => {
-  debugger;
   return (
     <Fragment>
       {countries.length > 0 ?

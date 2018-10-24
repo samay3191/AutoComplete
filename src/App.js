@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CountryList from './js/components/CountryListPage';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from './js/actions/index';
+import PropTypes from 'prop-types';
 
 const mapStateToProps = state => {
   return { countries: state.countries };
@@ -29,6 +29,7 @@ class App extends Component {
     this.setState({ filteredCounties: newProps.countries });
   }
 
+  // fires on text change
   searchTextChange = (event) => {
     const searchTerm = event.target.value.trim();
     const showCountries = searchTerm.length > 0;
@@ -41,7 +42,6 @@ class App extends Component {
   }
 
   setCountry = country => {
-    debugger;
     this.setState({
       searchText: country,
       showCountries: false,
@@ -49,10 +49,9 @@ class App extends Component {
     });
   }
 
+  // to select country from the list
   onSearchTextKeyDown = key => {
-    debugger;
     const { selectedIndex, filteredCounties } = this.state;
-
     if (key.keyCode === 13) { //enter
       this.setCountry(filteredCounties[selectedIndex].name);
     }
@@ -98,6 +97,10 @@ class App extends Component {
       </div>
     );
   }
+}
+
+App.PropTypes = {
+  countries: PropTypes.array
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
