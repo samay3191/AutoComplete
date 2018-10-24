@@ -3,7 +3,7 @@ import './App.css';
 import CountryList from './js/components/CountryListPage';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as actions from './js/actions/index';
+import * as actions from './js/actions/filterActions';
 import PropTypes from 'prop-types';
 
 const mapStateToProps = state => {
@@ -31,14 +31,16 @@ class App extends Component {
 
   // fires on text change
   searchTextChange = (event) => {
-    const searchTerm = event.target.value.trim();
-    const showCountries = searchTerm.length > 0;
-    this.setState({
-      searchText: searchTerm,
-      showCountries,
-      selectedIndex: 0
-    });
-    setTimeout(() => this.props.filterCountries(searchTerm), 500);
+    if (event.target.validity.valid) {
+      const searchTerm = event.target.value.trim();
+      const showCountries = searchTerm.length > 0;
+      this.setState({
+        searchText: searchTerm,
+        showCountries,
+        selectedIndex: 0
+      });
+      setTimeout(() => this.props.filterCountries(searchTerm), 500);
+    }
   }
 
   setCountry = country => {
@@ -84,6 +86,7 @@ class App extends Component {
               onKeyDown={this.onSearchTextKeyDown}
               value={this.state.searchText}
               className="searchBox"
+              pattern="[A-Za-z]*"
             />
           </div>
           { this.state.showCountries &&
