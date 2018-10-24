@@ -55,7 +55,9 @@ class App extends Component {
   onSearchTextKeyDown = key => {
     const { selectedIndex, filteredCounties } = this.state;
     if (key.keyCode === 13) { //enter
-      this.setCountry(filteredCounties[selectedIndex].name);
+      if (this.state.searchText && this.state.searchText.length > 0) {
+        this.setCountry(filteredCounties[selectedIndex].name);
+      }
     }
     else if (key.keyCode === 38) { //up
       if (selectedIndex === 0) {
